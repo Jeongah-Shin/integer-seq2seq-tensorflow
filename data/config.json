@@ -1,0 +1,6 @@
+{
+  "train_s": "data/train/train_source.txt",
+  "train_t": "data/train/train_target.txt",
+  "test_s": "data/test/test_source.txt",
+  "test_t": "data/test/test_target.txt"
+}
