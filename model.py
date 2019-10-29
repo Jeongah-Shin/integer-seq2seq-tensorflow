@@ -1,20 +1,32 @@
 import tensorflow as tf
 
-class Encoder(tf.keras.Model):
-  def __init__(self, vocab_size, embedding_dim, enc_units, batch_sz):
-    super(Encoder, self).__init__()
-    self.batch_sz = batch_sz
-    self.enc_units = enc_units
-    self.embedding = tf.keras.layers.Embedding(vocab_size, embedding_dim)
-    self.gru = tf.keras.layers.GRU(self.enc_units,
-                                   return_sequences=True,
-                                   return_state=True,
-                                   recurrent_initializer='glorot_uniform')
+batch_size = 32  # Batch size for training.
+epochs = 100  # Number of epochs to train for.
+latent_dim = 40  # Latent dimensionality of the encoding space.
+num_samples = 7260  # Number of samples to train on.
+num_encoder_tokens = 11
+num_decoder_tokens = 13
 
-  def call(self, x, hidden):
-    x = self.embedding(x)
-    output, state = self.gru(x, initial_state = hidden)
-    return output, state
+def seq2seq():
+    # Define an input sequence and process it.
+    encoder_inputs = tf.keras.Input(shape=(None, num_encoder_tokens))
+    encoder = tf.keras.layers.LSTM(latent_dim, return_state=True)
+    encoder_outputs, state_h, state_c = encoder(encoder_inputs)
+    # We discard `encoder_outputs` and only keep the states.
+    encoder_states = [state_h, state_c]
 
-  def initialize_hidden_state(self):
-    return tf.zeros((self.batch_sz, self.enc_units))
+    # Set up the decoder, using `encoder_states` as initial state.
+    decoder_inputs = tf.keras.Input(shape=(None, num_decoder_tokens))
+    # We set up our decoder to return full output sequences,
+    # and to return internal states as well. We don't use the
+    # return states in the training model, but we will use them in inference.
+    decoder_lstm = tf.keras.layers.LSTM(latent_dim, return_sequences=True, return_state=True)
+    decoder_outputs, _, _ = decoder_lstm(decoder_inputs,
+                                         initial_state=encoder_states)
+    decoder_dense = tf.keras.layers.Dense(num_decoder_tokens, activation='softmax')
+    decoder_outputs = decoder_dense(decoder_outputs)
+
+    # Define the model that will turn
+    # `encoder_input_data` & `decoder_input_data` into `decoder_target_data`
+    model = tf.keras.Model([encoder_inputs, decoder_inputs], decoder_outputs)
+    return model
