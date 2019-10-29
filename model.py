@@ -7,9 +7,9 @@ num_samples = 7260  # Number of samples to train on.
 num_encoder_tokens = 11
 num_decoder_tokens = 13
 
-def seq2seq():
+def seq2seq(num_edncoder_tokens=num_encoder_tokens, num_decoder_tokens=num_decoder_tokens):
     # Define an input sequence and process it.
-    encoder_inputs = tf.keras.Input(shape=(None, num_encoder_tokens))
+    encoder_inputs = tf.keras.Input(shape=(None, num_edncoder_tokens))
     encoder = tf.keras.layers.LSTM(latent_dim, return_state=True)
     encoder_outputs, state_h, state_c = encoder(encoder_inputs)
     # We discard `encoder_outputs` and only keep the states.
@@ -29,4 +29,8 @@ def seq2seq():
     # Define the model that will turn
     # `encoder_input_data` & `decoder_input_data` into `decoder_target_data`
     model = tf.keras.Model([encoder_inputs, decoder_inputs], decoder_outputs)
+
+    model.compile(optimizer='rmsprop', loss='categorical_crossentropy',
+                  metrics=['accuracy'])
+
     return model
