@@ -48,6 +48,11 @@ pip3 install -r requirements.txt
   		<img src ="./images/0_experiment_design.png?raw=true" height="200px"/>
 </p>
 
+  The first thing to do was converting input sequence to states vector. Next, produce next prediction of integer by inserting the states vectors and target sequence(begins with target sequence with size 1 - starting annotation character *'s'*). For inferencing the model, choose the sample utilizing these predictions(using `argmax`) and add the sampled character(in this case **integer**) into result. Repeat all the processes when meets the sequence end character(*'e'*).
+
+
+
+
 ### Cost Function / Optimizer
 
 ```python
@@ -132,7 +137,11 @@ Total parameters : 17,493
 
 ### Retrospection
 
+- Learning curves
 
+- Code Convention
+- Further Approach - Attention mechanism, BLEU Score
+- NMT(Neural Machine Translation) as On-Device ML, Light-weight DNN
 
 
 
@@ -159,3 +168,7 @@ Total parameters : 17,493
 
 - [ ] Tensorflow Lite Conversion (if possible in time)
 - [ ] Tensorflow Lite Testing (if possible in time)
+
+> ***19.10.30 updated***
+>
+> LSTM Operations are present but not fully ready for custom models. However, it could be dealed with `SELLECT_OPS` system via Tensorflow Lite.
