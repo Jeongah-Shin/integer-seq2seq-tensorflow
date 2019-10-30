@@ -2,5 +2,52 @@
   "train_s": "data/train/train_source.txt",
   "train_t": "data/train/train_target.txt",
   "test_s": "data/test/test_source.txt",
-  "test_t": "data/test/test_target.txt"
+  "test_t": "data/test/test_target.txt",
+  "baseline_with_val_0.2" :
+  {
+    "batch_size" : 32,
+    "epochs" : 100,
+    "latent_dim" : 40,
+    "num_samples" : 7260,
+    "num_encoder_tokens" : 11,
+    "num_decoder_tokens" : 13,
+    "validation_split" : 0.2
+  },
+  "baseline_with_val_0.2_output" :
+  {
+    "loss" : 0.1518,
+    "acc" : 0.9483,
+    "val_loss" : 0.1566,
+    "val_acc" : 0.9468
+  },
+  "b64_no_val" :
+  {
+    "batch_size" : 64,
+    "epochs" : 100,
+    "latent_dim" : 40,
+    "num_samples" : 7260,
+    "num_encoder_tokens" : 11,
+    "num_decoder_tokens" : 13,
+    "validation_split" : 0.0
+  },
+  "b64_no_val_output" :
+  {
+    "loss" : 0.1559,
+    "acc" : 0.9467
+  },
+  "b64_with_val" :
+  {
+    "batch_size" : 64,
+    "epochs" : 100,
+    "latent_dim" : 40,
+    "num_samples" : 7260,
+    "num_encoder_tokens" : 11,
+    "num_decoder_tokens" : 13,
+    "validation_split" : 0.2
+  },
+  "b64_with_val_output" :
+  {
+    "loss" : 0.1595,
+    "acc" : 0.9457
+  }
 }

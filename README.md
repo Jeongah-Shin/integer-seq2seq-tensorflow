@@ -32,7 +32,107 @@ pip3 install -r requirements.txt
 
 ### Data Exploration
 
-"눈으로 이해 가능하고 손으로 조작 가능한 입출력 범위 찾기"
+|                                 | Train set | Test set |
+| ------------------------------- | --------- | -------- |
+| Number of samples               | 7260      | 2000     |
+| Number of unique input tokens   | 11        | 11       |
+| Number of unique output tokens  | 13        | 13       |
+| Max sequence length for inputs  | 303       | 303      |
+| Max sequence length for outputs | 197       | 197      |
+
+
+
+### Experimental Design
+
+<p align="center">
+  		<img src ="./images/0_experiment_design.png?raw=true" height="200px"/>
+</p>
+
+### Cost Function / Optimizer
+
+```python
+model.compile(optimizer='rmsprop', loss='categorical_crossentropy', metrics=['accuracy'])
+```
+
+| Options                 | Selection                      |
+| ----------------------- | ------------------------------ |
+| Optimizer               | RMSProp                        |
+| Loss calculation method | Categorial CrossEntropy        |
+| Evaluation Metric       | Accuracy (Categorial Accuracy) |
+
+
+
+### Training
+<p align="center">
+      <img src ="./images/2_training_acc.png?raw=true" height="250px"/>
+  		<img src ="./images/3_training_loss.png?raw=true" height="250px"/>
+</p>
+#### T1
+
+```json
+  "baseline_with_val_0.2" :
+  {
+    "batch_size" : 32,
+    "epochs" : 100,
+    "latent_dim" : 40,
+    "num_samples" : 7260,
+    "num_encoder_tokens" : 11,
+    "num_decoder_tokens" : 13,
+    "validation_split" : 0.2
+  }
+```
+#### T2
+
+```json
+  "b64_no_val" :
+  {
+    "batch_size" : 64,
+    "epochs" : 100,
+    "latent_dim" : 40,
+    "num_samples" : 7260,
+    "num_encoder_tokens" : 11,
+    "num_decoder_tokens" : 13,
+    "validation_split" : 0.0
+  }
+```
+#### T3
+
+```json
+  "b64_with_val" :
+  {
+    "batch_size" : 64,
+    "epochs" : 100,
+    "latent_dim" : 40,
+    "num_samples" : 7260,
+    "num_encoder_tokens" : 11,
+    "num_decoder_tokens" : 13,
+    "validation_split" : 0.2
+  }
+```
+Total parameters : 17,493
+
+|          | T1         | T2     | T3     |
+| -------- | ---------- | ------ | ------ |
+| Loss     | 0.1518     | 0.1559 | 0.1595 |
+| Accuracy | **0.9483** | 0.9467 | 0.9457 |
+
+
+
+### Experiment Result
+
+- On Test Set (2000 Lines)
+
+|                   | Test Loss               | Test Accuracy (Categorial) |
+| ----------------- | ----------------------- | -------------------------- |
+| T1 **(baseline)** | **0.15920982682704926** | **0.9459543**              |
+| T2                | 0.16035067236423492     | 0.9456472                  |
+| T3                | 0.16392553293704987     | 0.9444162                  |
+
+
+
+### Retrospection
+
+
 
 
 
@@ -41,18 +141,17 @@ pip3 install -r requirements.txt
 - [x] virtual environment settings for implementing tensorflow 2.0
 - [x] pylint settings for IDE
   - reference : https://code-examples.net/en/q/245e146
-- [ ] problem definition 
-- [ ] EDA
-- [ ] experiment design
-  - [ ] baselines
-  - [ ] models
-  - [ ] data exploration results
-- [ ] cost function / optimizer selection
-- [ ] train model
-	- [ ] data feeding - batch size
-	- [ ] optimization solver - training epoch, learning rate
-- [ ] evaluation metrics
-- [ ] experimental results
+- [x] problem definition 
+- [x] experiment design
+  - [x] baselines
+  - [x] models
+  - [x] data exploration results
+- [x] cost function / optimizer selection
+- [x] train model
+	- [x] data feeding - batch size
+	- [x] optimization solver - training epoch, learning rate
+- [x] evaluation metrics
+- [x] experimental results
 
 
 

@@ -1,13 +1,10 @@
 import tensorflow as tf
 
-batch_size = 32  # Batch size for training.
-epochs = 100  # Number of epochs to train for.
 latent_dim = 40  # Latent dimensionality of the encoding space.
-num_samples = 7260  # Number of samples to train on.
 num_encoder_tokens = 11
 num_decoder_tokens = 13
 
-def seq2seq(num_encoder_tokens=num_encoder_tokens, num_decoder_tokens=num_decoder_tokens):
+def seq2seq(is_compiled=True, num_encoder_tokens=num_encoder_tokens, num_decoder_tokens=num_decoder_tokens):
     # Define an input sequence and process it.
     encoder_inputs = tf.keras.Input(shape=(None, num_encoder_tokens))
     encoder = tf.keras.layers.LSTM(latent_dim, return_state=True)
@@ -30,7 +27,8 @@ def seq2seq(num_encoder_tokens=num_encoder_tokens, num_decoder_tokens=num_decode
     # `encoder_input_data` & `decoder_input_data` into `decoder_target_data`
     model = tf.keras.Model([encoder_inputs, decoder_inputs], decoder_outputs)
 
-    model.compile(optimizer='rmsprop', loss='categorical_crossentropy',
-                  metrics=['accuracy'])
+    if is_compiled :
+        model.compile(optimizer='rmsprop', loss='categorical_crossentropy',
+                      metrics=['accuracy'])
 
     return model
