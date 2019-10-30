@@ -2,13 +2,19 @@ import json
 import pandas as pd
 import numpy as np
 
-def process():
+def process(is_train=True):
     with open('./data/config.json') as data_config:
         data = json.load(data_config)
-        with open(data['train_s'], 'r', encoding='utf-8') as source:
-            source_lines = source.read().splitlines()
-        with open(data['train_t'], 'r', encoding='utf-8') as target:
-            target_lines = target.read().splitlines()
+        if is_train :
+            with open(data['train_s'], 'r', encoding='utf-8') as source:
+                source_lines = source.read().splitlines()
+            with open(data['train_t'], 'r', encoding='utf-8') as target:
+                target_lines = target.read().splitlines()
+        else:
+            with open(data['test_s'], 'r', encoding='utf-8') as source:
+                source_lines = source.read().splitlines()
+            with open(data['test_t'], 'r', encoding='utf-8') as target:
+                target_lines = target.read().splitlines()
 
     num_train_samples = len(source_lines)
 
