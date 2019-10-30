@@ -72,6 +72,7 @@ model.compile(optimizer='rmsprop', loss='categorical_crossentropy', metrics=['ac
       <img src ="./images/2_training_acc.png?raw=true" height="250px"/>
   		<img src ="./images/3_training_loss.png?raw=true" height="250px"/>
 </p>
+
 #### T1
 
 ```json
@@ -139,9 +140,18 @@ Total parameters : 17,493
 
 - Learning curves
 
-- Code Convention
-- Further Approach - Attention mechanism, BLEU Score
-- NMT(Neural Machine Translation) as On-Device ML, Light-weight DNN
+    Some difficulites exist since it is the first time to me to design and implement RNN models for my own. The following two points of view are regretful things to me that I want to make up in the future.
+
+  **Further Approach**
+
+    - Code Convention
+    - Further Approach - Attention mechanism, BLEU Score
+
+- NMT(Neural Machine Translation) as On-Device ML
+
+    As a perspective of Light-weight DNN, I think it is important to minimize pre-processing/post-processing  since the heavy operations on mobile or edge devices should be avoided. Therfore, It would be preferable **to carry out the processes**(`process_data.py`) **within the model** with this perspective. Also, using **GRU-based encoder/decoder** would be preferable instead of LSTM that it uses less training(or total) parameters and less memories.
+
+Thank you for the good opportunity! It was a task that left a lot of regrets while having fun with new experiences. Maybe It sounds like an excuse for myself, I want to try again after having enough time to have a deep understanding of the NMT(Neural Machine Translation).
 
 
 
