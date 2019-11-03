@@ -3,6 +3,8 @@ import tensorflow as tf
 latent_dim = 40  # Latent dimensionality of the encoding space.
 num_encoder_tokens = 11
 num_decoder_tokens = 13
+batch_size = 64  # Batch size for training.
+epochs = 100  # Number of epochs to train for.
 
 def seq2seq(is_compiled=True, num_encoder_tokens=num_encoder_tokens, num_decoder_tokens=num_decoder_tokens):
     # Define an input sequence and process it.
